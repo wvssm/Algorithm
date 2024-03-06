@@ -1,7 +1,13 @@
 #include <string>
 #include <vector>
-
+#include <map>
 using namespace std;
+int dx[4] = {0,0,-1,1};
+int dy[4] = {-1,1,0,0};
+
+map<char,int> m = { 
+    {'N',0},{'S',1},{'W',2},{'E',3}
+};
 
 vector<int> solution(vector<string> park, vector<string> routes) {
     vector<int> answer;
@@ -17,66 +23,31 @@ vector<int> solution(vector<string> park, vector<string> routes) {
             if(park[i][j]=='S'){
                 nh = i;
                 nw = j;
-                sign = 1;
                 break;
             }
         }
-        if(sign) break;
     }
     
-    int result = 0;
+ 
     for(int i=0; i<routes.size(); i++){
-        sign = 0;
-        if(routes[i][0]=='N'){
-            result = nh-(routes[i][2]-'0');
-            if(result >=0 && result <=h-1){
-                for(int j=nh; j>=result; j--){
-                    if(park[j][nw]=='X') {
-                        sign = 1;
-                        break;
-                    }
-                }
-                if(sign == 0) nh = result;
-            } 
+        int num = routes[i][2] - '0';
+        int new_h = nh;
+        int new_w = nw;
+        
+        while(num--){
+            new_h += dy[m[routes[i][0]]];
+            new_w += dx[m[routes[i][0]]];
+            
+            if(new_h<0 || new_h>=h || new_w<0 || new_w>=w) break;
+            if(park[new_h][new_w]=='X') break;
         }
         
-        else if(routes[i][0]=='S'){
-            result = nh+(routes[i][2]-'0');
-            if(result>=0 && result <=h-1) {
-                for(int j=nh; j<=result; j++){
-                    if(park[j][nw]=='X') {
-                        sign = 1;
-                        break;
-                    }
-                }
-                if(sign == 0) nh = result;
-            }
-        } 
-        else if(routes[i][0]=='W'){
-            result = nw-(routes[i][2]-'0');
-            if(result>=0 && result<=w-1) {
-                for(int j=nw; j>=result; j--){
-                    if(park[nh][j]=='X') {
-                        sign = 1;
-                        break;
-                    }
-                }
-                if(sign == 0) nw = result;
-            } 
-        } 
-        else if(routes[i][0]=='E'){
-            result = nw+(routes[i][2]-'0');
-            if(result>=0 && result<=w-1) {
-                for(int j=nw; j<=result; j++){
-                    if(park[nh][j]=='X') {
-                        sign = 1;
-                        break;
-                    }
-                }
-                if(sign == 0) nw = result;
-            } 
-        } 
+        if(num<0){
+            nh = new_h;
+            nw = new_w;
+        }
     }
+    
     answer.push_back(nh);
     answer.push_back(nw);
     return answer;
