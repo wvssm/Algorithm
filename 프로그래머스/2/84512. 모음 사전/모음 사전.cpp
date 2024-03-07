@@ -1,31 +1,29 @@
 #include <string>
 #include <vector>
-#include <iostream>
 
 using namespace std;
-vector<string> str = {"A","E","I","O","U"};
-int answer = 0;
+vector<char> alpha = {'A','E','I','O','U'};
 int total = 0;
+int answer = 0;
 
-void dfs(vector<string> str, string word, int cnt, string my_word){
+void dfs(string word, string my_word, int level){
     total++;
-    //cout << my_word << " "; 
-    if(my_word==word) {
+    
+    if(word==my_word){
         answer = total;
         return;
     }
     
-    if(cnt==5){
+    if(level == 5){
         return;
     }
     
-    for(int i=0; i<str.size(); i++){
-        dfs(str,word,cnt+1,my_word+str[i]);
+    for(int i=0; i<alpha.size(); i++){
+        dfs(word, my_word+alpha[i], level+1);
     }
 }
 
-
 int solution(string word) {
-    dfs(str,word,0,"");
+    dfs(word, "", 0);
     return answer-1;
 }
