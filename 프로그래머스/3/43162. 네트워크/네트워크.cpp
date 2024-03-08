@@ -2,27 +2,26 @@
 #include <vector>
 
 using namespace std;
-vector<int> vis(201,0);
-int cnt = 0;
+int vis[201];
 
-void dfs(int n, vector<vector<int>> computers){
+void dfs(vector<vector<int>> computers,int num){
     
-    for(int next=0; next<computers[n].size(); next++){
-        if(computers[n][next]==1 && vis[next]==0){
-            vis[next] = 1;
-            dfs(next,computers);
+    for(int i=0; i<computers[num].size(); i++){
+        if(computers[num][i] ==1 && vis[i]==0){
+            vis[i]=1;
+            dfs(computers,i);
         }
     }
+    
 }
-
 int solution(int n, vector<vector<int>> computers) {
     int answer = 0;
     for(int i=0; i<computers.size(); i++){
-       if(vis[i]==0){
-           cnt++;
-           vis[i]=1;
-           dfs(i, computers);
-       }
+        if(vis[i]==0){
+            vis[i]=1;
+            dfs(computers,i);
+            answer++;
+        }
     }
-    return cnt;
+    return answer;
 }
