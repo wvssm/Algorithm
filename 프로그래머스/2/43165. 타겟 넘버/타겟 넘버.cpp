@@ -2,18 +2,26 @@
 #include <vector>
 
 using namespace std;
-int answer = 0;
-void dfs(vector<int> numbers, int target, int cnt, int sum){
-    if(cnt==numbers.size()){
-        if(sum == target) answer++;
+int answer=0;
+int vis[21][2];
+vector<int>dx= {-1, 1};
+
+void dfs(vector<int> numbers, int target, int sum, int level){
+    if(level==numbers.size()){
+        if(sum==target) answer++;
         return;
     }
-    dfs(numbers,target,cnt+1, sum+numbers[cnt]);
-    dfs(numbers,target,cnt+1, sum-numbers[cnt]);
+    
+    for(int i=0; i<2; i++){
+        if(vis[level][i]==0){
+            vis[level][i] = 1;
+            dfs(numbers, target, sum+numbers[level]*dx[i], level+1);
+            vis[level][i] = 0;
+        }
+    }
 }
 
 int solution(vector<int> numbers, int target) {
-    dfs(numbers, target, 1, numbers[0]);
-    dfs(numbers, target, 1, -numbers[0]);
+    dfs(numbers, target, 0, 0);
     return answer;
 }
