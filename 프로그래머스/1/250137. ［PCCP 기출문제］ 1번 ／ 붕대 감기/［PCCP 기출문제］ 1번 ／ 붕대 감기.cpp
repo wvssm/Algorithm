@@ -13,7 +13,6 @@ int solution(vector<int> bandage, int health, vector<vector<int>> attacks) {
             s = 0;
             health = health - attacks[time][1];
             time++;
-            if(health<=0) return -1;
         }
         
         else{
@@ -27,6 +26,8 @@ int solution(vector<int> bandage, int health, vector<vector<int>> attacks) {
             }
             if(health>first_health) health = first_health;
         }
+        
+        if(health<=0) return -1;
     }
     return health;
 }
