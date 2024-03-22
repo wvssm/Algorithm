@@ -4,13 +4,14 @@
 #include <set>
 
 using namespace std;
-vector<int>vis(7,0);
-set<int> prime;
-int cnt = 0;
 
-bool is_prime(int num){
-    if(num == 0) return false;
-    if(num == 1) return false;
+int vis[10];
+int cnt=0;
+set<int> sosu;
+
+bool check(int num){
+    if(num == 0 || num == 1) return false;
+    if(num == 2) return true;
     
     for(int i=2; i<=sqrt(num); i++){
         if(num%i==0) return false;
@@ -18,31 +19,26 @@ bool is_prime(int num){
     return true;
 }
 
-void dfs(string numbers, string mynum, int level){
-    
-    if(mynum[0]=='0'){
-        return;
+void dfs(string numbers, string num, int level){
+    if(num != "" && num[0] != '0'){
+        if(check(stoi(num))) {
+            sosu.insert(stoi(num));
+        }  
     }
     
-    if(mynum != ""){
-        if(is_prime(stoi(mynum))) prime.insert(stoi(mynum));
-    }
-
-    if(level == numbers.size()){
-        return;
-    }
+    if(level == numbers.size()) return;
     
     for(int i=0; i<numbers.size(); i++){
         if(vis[i]==0){
             vis[i]=1;
-            dfs(numbers, mynum+numbers[i], level+1);
+            dfs(numbers, num+numbers[i] ,level+1);
             vis[i]=0;
         }
     }
 }
+
 int solution(string numbers) {
     int answer = 0;
     dfs(numbers, "", 0);
-    answer = prime.size();
-    return answer;
+    return sosu.size();
 }
