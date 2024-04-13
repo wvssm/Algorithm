@@ -1,50 +1,49 @@
+/*
+ * 관전 포인트
+ * 1. 오름차순으로 입력이 주어지지 않을 수도 있다.
+ * 2. 자기가 체육복이 없으면 자기가 입어야한다. 남한테 빌려줄 수 없다.*/
+
 #include <string>
 #include <vector>
 #include <iostream>
 #include <algorithm>
 
 using namespace std;
-int vis_res[31];
-int vis_lost[31];
+
+bool vis[31];
 
 int solution(int n, vector<int> lost, vector<int> reserve) {
-    int answer = 0;
-    answer = n - lost.size();
-    cout <<"답:" << answer;
-    sort(lost.begin(), lost.end());
+    int answer = n-lost.size();
+    sort(lost.begin(),lost.end());
     sort(reserve.begin(), reserve.end());
-    
-    
-    // 안가져온애들 순회
+
     for(int i=0; i<lost.size(); i++){
-        // 여분있는 애인지 확인
-        auto idx = find(reserve.begin(), reserve.end(), lost[i]);
-        // 여분있는 애면
-        if(idx!=reserve.end()){
-            // 체육복 대여 표시
-            cout << *idx;
-            vis_res[lost[i]] = 1;
+        auto cur = find(reserve.begin(),reserve.end(),lost[i]);
+        if(cur!= reserve.end()){
+            vis[lost[i]] = true;
             answer++;
-            vis_lost[lost[i]]=1;
-            continue;
         }
     }
-    
+
     for(int i=0; i<lost.size(); i++){
-        if(vis_lost[lost[i]]==0){
-            for(int j=0; j<reserve.size(); j++){
-               //  앞 뒤 사람이면
+        if(vis[lost[i]]) continue; // 체육복을 빌렸으면 pass
+        for(int j=0; j<reserve.size(); j++){
+            if(!vis[reserve[j]]){
                 if(reserve[j]-1 == lost[i] || reserve[j]+1 == lost[i]){
-                    if(vis_res[reserve[j]]==0){
-                       vis_res[reserve[j]]=1;
-                        answer++;
-                        break; 
-                    }
+                    vis[reserve[j]]=true;
+                    answer++;
+                    break;
                 }
             }
         }
-
     }
-         
     return answer;
+}
+
+int main(){
+    int n = 3;
+    vector<int> lost ={3};
+    vector<int> reserve = {1};
+    int answer = solution(n, lost, reserve);
+    cout << answer;
 }
