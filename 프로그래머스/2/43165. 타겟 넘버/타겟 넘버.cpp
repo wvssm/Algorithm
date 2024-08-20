@@ -15,9 +15,8 @@ void dfs(int sum, int num, int target, vector<int> numbers){
         return;
     }
     
-    for(int i=0; i<2; i++){
-        dfs(sum + plus_minus[i] * numbers[num], num+1, target, numbers);
-    }
+    dfs(sum + 1 * numbers[num], num+1, target, numbers);
+    dfs(sum - 1 * numbers[num], num+1, target, numbers);
 }
 
 int solution(vector<int> numbers, int target) {
