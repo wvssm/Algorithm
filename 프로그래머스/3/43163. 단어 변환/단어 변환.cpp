@@ -1,41 +1,38 @@
 #include <string>
+#include <iostream>
 #include <vector>
 
 using namespace std;
-
+int min_cnt = 100;
 int vis[51];
-int min_val = 52;
-bool check(string a, string b){
+
+bool isOneDiff(string a, string b){
     int cnt = 0;
     for(int i=0; i<a.size(); i++){
         if(a[i]!=b[i]) cnt++;
     }
-    if(cnt<=1) return true;
+    if(cnt == 1) return true;
     else return false;
 }
 
-void dfs(string begin, string target, vector<string> words, int level){
+void dfs(string begin, string target, int cnt, vector<string> words){
     if(begin == target){
-        if(min_val>level){
-            min_val = level;
-        }
+        if(cnt < min_cnt) min_cnt = cnt;
         return;
     }
     
-    for(int i=0; i<words.size(); i++){
-        if(vis[i]==0){
-            if(check(begin, words[i])){
-                vis[i]=1;
-                dfs(words[i],target,words,level+1);
-                vis[i]=0;
-            }
+    for(int i=0; i<words.size(); i++){  
+        if(isOneDiff(begin,words[i]) && vis[i] == 0){
+            vis[i]=1;
+            cout<< begin << "단어 변경" << words[i] << " " << cnt << "\n";
+            dfs(words[i],target,cnt+1,words);
+            vis[i]=0;
         }
     }
 }
 
 int solution(string begin, string target, vector<string> words) {
-    int answer = 0;
-    dfs(begin,target,words,0);
-    if(min_val == 52) return 0;
-    else return min_val;
+    dfs(begin,target,0,words);
+    if(min_cnt == 100) return 0;
+    else return min_cnt;
 }
