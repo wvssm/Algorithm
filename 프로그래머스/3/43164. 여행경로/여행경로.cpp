@@ -1,47 +1,45 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
 
-using namespace std;
-int vis[10001];
-vector<vector<string>> roots;
-int value = 0;
 
-void dfs(string depart,int cnt, vector<vector<string>> tickets, vector<string> root){
-    if(cnt==tickets.size()){
-        roots.push_back(root);
+using namespace std;
+vector<int> vis(100000,0);
+vector<vector<string>>answers;
+int found = 0;
+
+void dfs(string begin, int cnt, vector<vector<string>> tickets, vector<string> answer){
+    if(cnt == tickets.size()){
+        answers.push_back(answer);
+        found = 1;
         return;
-    }    
+    }
     
     for(int i=0; i<tickets.size(); i++){
-        if(tickets[i][0]==depart && vis[i]==0){
+        if(vis[i]==0 && tickets[i][0]==begin){
             vis[i]=1;
-            root.push_back(tickets[i][1]);
-            dfs(tickets[i][1],cnt+1,tickets,root);
-            root.pop_back();
+            answer.push_back(tickets[i][1]);
+            dfs(tickets[i][1],cnt+1,tickets,answer);
+            answer.pop_back();
             vis[i]=0;
         }
     }
-    
 }
 
-
-
 vector<string> solution(vector<vector<string>> tickets) {
+    sort(tickets.begin(), tickets.end());
     vector<string> answer;
     for(int i=0; i<tickets.size(); i++){
-        if(tickets[i][0]=="ICN" && vis[i]==0){
+        if(tickets[i][0]=="ICN"){
             vis[i]=1;
-            vector<string> root;
-            root.push_back(tickets[i][0]);
-            root.push_back(tickets[i][1]);
-            dfs(tickets[i][1],1,tickets,root);
-            root.pop_back();
-            root.pop_back();
+            answer.push_back(tickets[i][0]);
+            answer.push_back(tickets[i][1]);
+            dfs(tickets[i][1],1,tickets,answer);
+            if(found==1) break;
+            answer.pop_back();
+            answer.pop_back();
             vis[i]=0;
-        } 
+        }
     }
-    sort(roots.begin(),roots.end());
-    return roots[0];
+    return answers[0];
 }
