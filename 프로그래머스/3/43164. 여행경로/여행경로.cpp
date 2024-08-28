@@ -4,7 +4,6 @@
 
 
 using namespace std;
-//vector<int> vis(100000000,0);
 int vis[100000000];
 vector<vector<string>>answers;
 int found = 0;
@@ -21,8 +20,8 @@ void dfs(string begin, int cnt, vector<vector<string>> tickets, vector<string> a
             vis[i]=1;
             answer.push_back(tickets[i][1]);
             dfs(tickets[i][1],cnt+1,tickets,answer);
-            answer.pop_back();
             vis[i]=0;
+            answer.pop_back();
         }
     }
 }
@@ -30,17 +29,7 @@ void dfs(string begin, int cnt, vector<vector<string>> tickets, vector<string> a
 vector<string> solution(vector<vector<string>> tickets) {
     sort(tickets.begin(), tickets.end());
     vector<string> answer;
-    for(int i=0; i<tickets.size(); i++){
-        if(tickets[i][0]=="ICN"){
-            vis[i]=1;
-            answer.push_back(tickets[i][0]);
-            answer.push_back(tickets[i][1]);
-            dfs(tickets[i][1],1,tickets,answer);
-            if(found==1) break;
-            answer.pop_back();
-            answer.pop_back();
-            vis[i]=0;
-        }
-    }
+    answer.push_back("ICN");
+    dfs("ICN",0, tickets, answer);
     return answers[0];
 }
