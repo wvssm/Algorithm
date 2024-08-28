@@ -17,10 +17,8 @@ bool isPrime(int num){
 }
 
 void dfs(string num, string numbers){
-    cout << num << '\n';
     if(num != "" && isPrime(stoi(num))){
         prime_numbers.insert(stoi(num));
-        //cout << num << '\n';
     }
     
     if(num.size() == numbers.size()) return;
@@ -37,15 +35,7 @@ void dfs(string num, string numbers){
 }
 int solution(string numbers) {
     int answer = 0;
-    for(int i=0; i<numbers.size(); i++){
-        string num = "";
-        if(vis[i]==0){
-            vis[i]=1;
-            num = num + numbers[i];
-            dfs(num,numbers);
-            num = num.substr(0,num.size()-2);
-            vis[i]=0;
-        }
-    }    
+    string num ="";
+    dfs(num, numbers);
     return prime_numbers.size();
 }
