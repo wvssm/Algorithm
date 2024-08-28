@@ -4,7 +4,8 @@
 
 
 using namespace std;
-vector<int> vis(100000,0);
+//vector<int> vis(100000000,0);
+int vis[100000000];
 vector<vector<string>>answers;
 int found = 0;
 
