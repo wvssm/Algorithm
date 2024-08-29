@@ -1,3 +1,7 @@
+// 시간복잡도: O(N!*N)
+// N!은 11까지는 1초만에 계산된다.
+// 백트래킹을 이용한 완전탐색을 수행하였다.
+
 #include <string>
 #include <vector>
 #include <cmath>
