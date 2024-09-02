@@ -3,23 +3,27 @@
 
 using namespace std;
 
-vector<char> alpha = {'A','E','I','O','U'};
-int cnt = -1;
+int cnt = 0;
 int answer = 0;
-void dfs(string word, string myword, int level){
-    cnt++;
-    if(myword==word){
+string moeum = "AEIOU";
+
+void dfs(string str1, string word){
+    if(str1 == word){
         answer = cnt;
+        return;    
+    }
+    
+    if(str1.size() >= 5){
         return;
     }
     
-    if(level == 5) return;
-    for(int i=0; i<alpha.size(); i++){
-        dfs(word, myword + alpha[i], level+1);   
+    for(int i=0; i<5; i++){
+        cnt++;
+        dfs(str1+moeum[i], word);
     }
 }
 
 int solution(string word) {
-    dfs(word, "", 0);
+    dfs("", word);
     return answer;
 }
