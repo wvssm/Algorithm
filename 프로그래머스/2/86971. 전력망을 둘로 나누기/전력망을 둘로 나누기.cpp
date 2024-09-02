@@ -12,7 +12,6 @@ void dfs(int begin, vector<int> vis, vector<vector<int>> wires){
     for(int i=0; i<wires.size(); i++){
         if(vis[i]==0 && wires[i][0] == begin){
             vis[i]=1;
-            cout << wires[i][1];
             cnt++;
             dfs(wires[i][1], vis, wires);
         }
@@ -20,7 +19,6 @@ void dfs(int begin, vector<int> vis, vector<vector<int>> wires){
         else if(vis[i]==0 && wires[i][1] == begin){
             vis[i]=1;
             cnt++;
-            cout << wires[i][0];
             dfs(wires[i][0], vis, wires);
         }
     }
@@ -45,7 +43,6 @@ int solution(int n, vector<vector<int>> wires) {
         if(answer>value) answer = value;
         
         cnt = 1;
-        vis[i]=0;
     }
     return answer;
 }
