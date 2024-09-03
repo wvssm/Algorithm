@@ -1,48 +1,56 @@
-// wires를 하나씩 제외하고 bfs를 돌리면 됨
-// 총 N번씩 전체 노드를 방문하기 때문에 O(N^2)의 시간복잡도를 가진다.
-
 #include <string>
 #include <vector>
+#include <queue>
 #include <iostream>
 
 using namespace std;
-int cnt = 1;
+vector<int> vertex[102];
+int cnt = 0;
 
-void dfs(int begin, vector<int> vis, vector<vector<int>> wires){ 
-    for(int i=0; i<wires.size(); i++){
-        if(vis[i]==0 && wires[i][0] == begin){
-            vis[i]=1;
-            cnt++;
-            dfs(wires[i][1], vis, wires);
-        }
-        
-        else if(vis[i]==0 && wires[i][1] == begin){
-            vis[i]=1;
-            cnt++;
-            dfs(wires[i][0], vis, wires);
+void bfs(int begin, int exclude){
+    vector<int> vis(102,0);
+    queue<int> q;
+    
+    vis[begin] = 1;
+    vis[exclude] = 1;
+    
+    q.push(begin);
+    
+    while(!q.empty()){
+        int node = q.front(); q.pop();
+        cnt++;
+        for(int i=0; i<vertex[node].size(); i++){
+            if(vis[vertex[node][i]]==0){
+                vis[vertex[node][i]]=1;
+                q.push(vertex[node][i]);
+            }
         }
     }
 }
 
-int diff(int a, int b){
-    if(a-b < 0) return -a+b;
-    else return a-b;
+int getDiff(int a, int b){
+    if(a-b<0) return -a+b;
+    return a-b;
 }
 
 int solution(int n, vector<vector<int>> wires) {
     int answer = 100;
-    int value = 100;
+    int gep = 0;
     
-    for(int i=0; i<wires.size(); i++){
-        vector<int> vis(101,0);
-        vis[i]=1;
+    for(auto wire:wires){
+        vertex[wire[0]].push_back(wire[1]);
+        vertex[wire[1]].push_back(wire[0]);
+    }
+    
+    for(auto wire:wires){
+        cnt = 0;
+        int begin = wire[0];
+        int exclude = wire[1];
         
-        dfs(1,vis,wires);
+        bfs(begin, exclude);
         
-        value = diff(n-cnt, cnt);
-        if(answer>value) answer = value;
-        
-        cnt = 1;
+        gep = getDiff(cnt, n-cnt);
+        if(answer>gep) answer = gep;
     }
     return answer;
 }
