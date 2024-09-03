@@ -2,13 +2,14 @@
 #include <set>
 using namespace std;
 
+set<int> s;
+
 int solution(vector<int> nums)
 {
-    int pocketmon_size = nums.size();
-    set<int> kind;
-    for(int i=0; i<pocketmon_size; i++){
-        kind.insert(nums[i]);
+    for(int num:nums){
+        s.insert(num);
     }
-    if(pocketmon_size/2 < kind.size()) return pocketmon_size/2;
-    else return kind.size();
+
+    if(nums.size()/2 < s.size()) return nums.size()/2;
+    else return s.size();
 }
