@@ -1,6 +1,7 @@
 /*
 sort 시간복잡도: O(NlogN)
 전체 시간복잡도: O(NlogN)
+조심해야할 부분, 두 노래의 재생횟수가 동일하면 번호가 낮은 것을 수록한다.
 */
 #include <string>
 #include <vector>
