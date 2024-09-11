@@ -1,63 +1,48 @@
 /*
-sort 시간복잡도: O(NlogN)
-전체 시간복잡도: O(NlogN)
-조심해야할 부분, 두 노래의 재생횟수가 동일하면 번호가 낮은 것을 수록한다.
+1. 속한 노래가 가장 많은 장르 정렬
+2. 장르별 노래 벡터 만들기
+3. 재생수가 가장 많은 곡 정렬
+4. 재생수가 같다면 고유번호가 낮은 노래 먼저 정렬
 */
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <unordered_map> 
 #include <algorithm>
-#include <iostream>
 
 using namespace std;
 
-
-// 속한 노래 많은 장르 체크
-unordered_map<string,int> genres_count;
-// 장르마다 곡 수, 곡 번호 저장
-unordered_map<string,vector<pair<int,int>>> songs;
-
-bool compare(pair<int,int>a, pair<int,int>b){
-    if(a.first == b.first){
-        return a.second < b.second;
-    }
+bool compare(pair<int,int> a, pair<int,int> b){
+    if(a.first == b.first) return a.second < b.second;
     return a.first > b.first;
 }
 
 vector<int> solution(vector<string> genres, vector<int> plays) {
     vector<int> answer;
+    unordered_map<string,int> genre_cnt;
+    vector<pair<int,string>> sort_genre;
+    unordered_map<string,vector<pair<int,int>>> song;
     
-    // 1. 장르 수 세기, 
-    // 2. 장르 벡터에 해당되는 노래, 곡 번호 저장
-    // 시간 복잡도 O(N)
     for(int i=0; i<plays.size(); i++){
-        genres_count[genres[i]] += plays[i] ;       
-        songs[genres[i]].push_back({plays[i],i});
+        // 장르 총 재생 수 계산
+        genre_cnt[genres[i]] += plays[i];
+        // 장르 내 각 곡별 재생수 및 고유번호 저장
+        song[genres[i]].push_back({plays[i], i});
     }
     
-    vector<pair<int,string>> cntAndGenres;
-    
-    // 1. 장르, 곡 벡터에 삽입하기
-    // 2. 각 장르 배열 정렬하기 (결국엔 전체 곡을 정렬함 O(NlogN))
-    for(auto &i : genres_count){
-        cntAndGenres.push_back({i.second, i.first});
-        sort(songs[i.first].begin(), songs[i.first].end(), compare);
+    for(auto i: genre_cnt){
+        sort_genre.push_back({i.second,i.first});
+        sort(song[i.first].begin(), song[i.first].end(), compare);
     }
     
+    sort(sort_genre.begin(), sort_genre.end(), greater<>());
     
-    // 장르, 곡 수에따라 정렬하기
-    // 시간복잡도 O(GlogG) G -> 장르개수 N보다 훨씬 작음
-    sort(cntAndGenres.begin(), cntAndGenres.end(), greater<>());
+    for(auto genre : sort_genre){
+        answer.push_back(song[genre.second][0].second);
     
-    // 장르 순서에 따라 곡 삽입
-    // 1곡 넣을 지, 2곡 넣을 지 결정해서 삽입
-    // O(G) 
-    for(int i=0; i<cntAndGenres.size(); i++){
-         answer.push_back(songs[cntAndGenres[i].second][0].second);
-        if(songs[cntAndGenres[i].second].size()>1){
-            answer.push_back(songs[cntAndGenres[i].second][1].second);
+        if(song[genre.second].size()>1){
+            answer.push_back(song[genre.second][1].second);
         }
-
     }
+    
     return answer;
 }
