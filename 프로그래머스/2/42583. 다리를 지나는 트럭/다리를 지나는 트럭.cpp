@@ -1,42 +1,34 @@
-#include <iostream>
-#include<algorithm>
-#include <functional>         // greater 사용 위해 필요  
+#include <string>
 #include <vector>
-#include<queue>
+#include <queue>
+
 using namespace std;
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
     int answer = 0;
-    int count = 0;
-    int Time = 0; 
-    int Truck_weight = 0;
-    queue<pair<int, int>> truck_move;
-
-    while (true)
-    {
-        if (weight >= Truck_weight + truck_weights.at(count))
-        {
-            truck_move.push(make_pair(truck_weights.at(count), bridge_length + 1 + Time));
-            Truck_weight += truck_weights.at(count);
-            count++;
+    int time = 0;
+    int total_weight = 0;
+    int cur = 0;
+    
+    queue<pair<int,int>> q;
+    
+    while(true){
+        if(weight >= total_weight + truck_weights.at(cur)){
+            total_weight += truck_weights.at(cur);
+            q.push({truck_weights.at(cur), time + bridge_length + 1});
+            cur++;
         }
-
-        if (count >= truck_weights.size())
-        {
-            answer = truck_move.back().second;
-            break;
+        
+        if(cur >= truck_weights.size()){
+            return q.back().second;
         }
-        else
-        {
-            Time++;
-            if (truck_move.front().second == Time+1)
-            {
-                Truck_weight -= truck_move.front().first;
-                truck_move.pop();
+        else{
+            time++;
+            if(q.front().second == time + 1){
+                total_weight -= q.front().first;
+                q.pop();
             }
         }
-
     }
-
     return answer;
 }
