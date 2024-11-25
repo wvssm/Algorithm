@@ -20,7 +20,7 @@ class Solution {
             personMap.put(person, personMap.getOrDefault(person, 0)-1);
         }
         
-        for(String person : participant){
+        for(String person : personMap.keySet()){
             if(personMap.get(person)!=0){
                 return person;
             }
