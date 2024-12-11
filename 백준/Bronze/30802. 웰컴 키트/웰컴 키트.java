@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args) throws  IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
         // 입력 받기
         int member = Integer.parseInt(br.readLine());
@@ -33,14 +33,12 @@ public class Main {
                 total += tshirt/t;
             }
         }
-        bw.write(total + "\n");
+        sb.append(total + "\n");
 
         int pen_cnt = member / p;
         int pen_g_cnt = member % p;
 
-        bw.write(pen_cnt + " " + pen_g_cnt);
-        bw.flush();
-        br.close();
-        bw.close();
+        sb.append(pen_cnt + " " + pen_g_cnt);
+        System.out.println(sb);
     }
 }
