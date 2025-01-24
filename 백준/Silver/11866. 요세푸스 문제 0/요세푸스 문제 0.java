@@ -8,7 +8,7 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
 		
-		Queue<Integer> q = new LinkedList<>();
+		Deque<Integer> q = new LinkedList<>();
 		
 		int n = Integer.parseInt(st.nextToken());
 		int k = Integer.parseInt(st.nextToken());
