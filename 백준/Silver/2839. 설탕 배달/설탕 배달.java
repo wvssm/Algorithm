@@ -8,29 +8,29 @@ class Main{
 		
 		int n = Integer.parseInt(br.readLine());
 		int answer = 0;
-		boolean isAvailable = false;
 		
-		if(n%5==0) {
-			answer = n/5;
-			bw.append(String.valueOf(answer));
+		int []dp = new int[n+1];
+
+		Arrays.fill(dp, 5001);
+		
+		if(n>=3) {
+			dp[3] = 1;
 		}
-		else {
-			while(n>=0) {
-				if(n%5==0) {
-					answer += n/5;
-					isAvailable = true;
-					break;
-				}
-				answer++;
-				n -= 3;
-			}
-			
-			if(isAvailable) {
-				bw.append(String.valueOf(answer));
-			} else {
-				bw.append(String.valueOf(-1));
-			}
+		if(n>=5) {
+			dp[5] = 1;
 		}
+		
+		for(int i=6; i<=n; i++) {
+			dp[i] = Math.min(dp[i-3], dp[i-5])+1;
+		}
+		
+		if(dp[n] > 5000) {
+			answer = -1;
+		} else {
+			answer = dp[n];
+		}
+		
+		bw.append(String.valueOf(answer));
 		
 		bw.flush();
 		bw.close();
