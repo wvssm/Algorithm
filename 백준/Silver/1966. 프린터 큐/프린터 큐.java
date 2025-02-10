@@ -25,17 +25,16 @@ class Main {
         	}
         	
         	Arrays.sort(arr);
-        	
+        	int index = n-1;
         	int cnt = 0;
         	while(true) {
         		int num = q.peek()[0];
         		int pos = q.peek()[1];
         		
-        		if(num == arr[n-1]) {
+        		if(num == arr[index]) {
         			cnt++;
         			q.poll();
-        			arr[n-1]= -1;
-        			Arrays.sort(arr);
+        			index--;
         			if(pos == m) {
         				bw.append(String.valueOf(cnt)+'\n');
         				break;
