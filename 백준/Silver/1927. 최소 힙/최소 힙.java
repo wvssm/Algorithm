@@ -8,7 +8,7 @@ class Main {
     	
     	int n = Integer.parseInt(br.readLine());
     	
-    	PriorityQueue pq = new PriorityQueue<>();
+    	PriorityQueue<Integer> pq = new PriorityQueue<>();
     	
     	for(int i=0; i<n; i++) {
     		int input = Integer.parseInt(br.readLine());
