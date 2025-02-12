@@ -12,7 +12,7 @@ class Main {
     	
     	long []arr = new long[k];
 
-    	long min_val = 0l;
+    	long min_val = 1l;
     	long max_val = 0l;
     	long mid_val = 0l;
     	
@@ -24,9 +24,9 @@ class Main {
     		}
     	}
     	
-    	max_val++;
+
     	
-    	while(min_val < max_val) {
+    	while(min_val <= max_val) { // 최솟값이 최댓값과 같아질 때 까지
     		// 중간 값 구하기
     		mid_val = (min_val + max_val)/2;
     		
@@ -37,15 +37,15 @@ class Main {
     		}
     		
 
-    		// 랜선개수가 우리가 원하는 것 보다 작다면 -> 길이 단축
+    		// 랜선개수가 우리가 원하는 것 보다 작거나 같다면 -> 길이 단축
     		if(cnt < (long)n) {
-    			max_val = mid_val;
+    			max_val = mid_val - 1;
     		} else { // 랜선 개수가 우리가 원하는 것보다 크다면 -> 길이 길게
     			min_val = mid_val + 1;
     		}
     	}
     	
-    	bw.append(String.valueOf(min_val-1));
+    	bw.append(String.valueOf(max_val));
     	bw.flush();
     	bw.close();
     	
