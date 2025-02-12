@@ -22,13 +22,18 @@ class Main {
     	int sum = 0;
     	int answer = 0;
     	
-    	while(end <= n-1) {
-    		if(sum <= m) {
-    			sum += arr[end++];
-    		}
-    		if(sum > m) {
+    	// end가 끝까지 올 때 까지
+    	while(start < n) {
+    		// 합이 목표값 보다 크거나 같으면 start 포인터 ++
+    		if(sum > m || end == n) {
     			sum -= arr[start++];
     		}
+    		// 합이 목표값보다 작으면 end 포인터++
+    		else {
+    			sum += arr[end++];
+    		}
+    		
+    		// 값이 같으면 answer +1
     		if(sum == m) {
     			answer += 1;
     		}
