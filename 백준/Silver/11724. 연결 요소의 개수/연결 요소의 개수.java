@@ -52,7 +52,7 @@ class Main
             for(int i=1; i<=N; i++){
                 if(!vis[i] && bridge[cur][i]==1){
                     vis[i] = true;
-                    bfs(i);
+                    q.add(i);
                 }
             }
         }
