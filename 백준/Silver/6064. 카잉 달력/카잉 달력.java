@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.io.*;
 
@@ -27,7 +28,7 @@ public class Main {
 			}
 			
 			for(int i=x; i<=M*N; i+=M) {
-				if(i%N == y) {
+				if(i%N == y) { 
 					answer = i;
 					break;
 				}
